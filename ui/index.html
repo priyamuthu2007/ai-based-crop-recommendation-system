@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fieldwise | Crop recommendation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">F</span><span>fieldwise</span></div>
+      <div class="season-pill"><span class="status-dot"></span> Kharif season</div>
+      <nav aria-label="Main navigation">
+        <a class="nav-item active" href="#recommend"><span class="nav-icon">⌂</span>Recommendation</a>
+        <a class="nav-item" href="#soil"><span class="nav-icon">◒</span>Soil profile</a>
+        <a class="nav-item" href="#history"><span class="nav-icon">↗</span>Past results</a>
+      </nav>
+      <div class="sidebar-footer"><span class="help-icon">?</span><span>Need help?</span><strong>Talk to an agronomist</strong></div>
+    </aside>
+
+    <main class="main-content" id="recommend">
+      <header class="topbar">
+        <div><p class="eyebrow">FIELD DECISION SUPPORT</p><h1>What should you plant next?</h1></div>
+        <div class="profile"><div class="avatar">RK</div><div><strong>Ravi Kumar</strong><small>Coimbatore, TN</small></div><span class="chevron">⌄</span></div>
+      </header>
+
+      <section class="welcome-band">
+        <div><p class="eyebrow light">A clearer path from soil to season</p><h2>Make your next crop count.</h2><p>Enter today's field conditions and Fieldwise will find the best crop match for your land.</p></div>
+        <div class="sun-card"><span>☀</span><div><strong>28°C</strong><small>Good planting conditions</small></div></div>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="panel input-panel" id="soil">
+          <div class="panel-heading"><div><p class="eyebrow">STEP 01 / FIELD INPUTS</p><h3>Tell us about your field</h3></div><span class="required-note">All fields required</span></div>
+          <form id="recommendation-form">
+            <div class="form-grid">
+              <label>Nitrogen <span>N</span><div class="input-wrap"><input name="nitrogen" type="number" value="90" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
+              <label>Phosphorus <span>P</span><div class="input-wrap"><input name="phosphorus" type="number" value="42" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
+              <label>Potassium <span>K</span><div class="input-wrap"><input name="potassium" type="number" value="43" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
+              <label>Temperature<div class="input-wrap"><input name="temperature" type="number" value="20.9" min="-10" max="60" step="0.1" required><em>°C</em></div></label>
+              <label>Humidity<div class="input-wrap"><input name="humidity" type="number" value="82" min="0" max="100" step="0.1" required><em>%</em></div></label>
+              <label>Soil pH<div class="input-wrap"><input name="ph" type="number" value="6.5" min="0" max="14" step="0.01" required><em>pH</em></div></label>
+              <label class="wide-field">Expected rainfall<div class="input-wrap"><input name="rainfall" type="number" value="203" min="0" max="1000" step="0.1" required><em>mm</em></div></label>
+            </div>
+            <button class="primary-button" type="submit"><span>✦</span> Get crop recommendation <b>→</b></button>
+          </form>
+          <p class="privacy-note"><span>♢</span> Your field data stays private on this device.</p>
+        </section>
+
+        <section class="panel result-panel" id="history">
+          <div class="panel-heading"><div><p class="eyebrow">STEP 02 / RESULT</p><h3>Your best match</h3></div><span class="model-badge">Decision Tree</span></div>
+          <div id="result-content" class="result-content">
+            <div class="crop-illustration" aria-hidden="true"><span class="leaf leaf-one"></span><span class="leaf leaf-two"></span><span class="leaf leaf-three"></span><span class="stem"></span><span class="soil-line"></span></div>
+            <p class="result-label">Recommended crop</p><h2 id="crop-name">Rice</h2><p class="result-copy">Your field conditions show a strong fit for a healthy rice season.</p>
+            <div class="confidence"><div><span>Model confidence</span><strong id="confidence-value">94%</strong></div><div class="progress"><span id="confidence-bar"></span></div></div>
+            <div class="result-details"><div><span class="detail-icon">◷</span><div><small>Growing period</small><strong>120–150 days</strong></div></div><div><span class="detail-icon">◉</span><div><small>Water need</small><strong>High</strong></div></div></div>
+          </div>
+          <div id="empty-result" class="empty-result" hidden><span>✦</span><p>Enter your field details to see a recommendation.</p></div>
+          <button class="secondary-button" type="button" id="reset-button">↻ Reset field inputs</button>
+        </section>
+      </div>
+      <footer class="footer-note"><span>FIELDWISE BETA</span><span>Designed for practical decisions in the field</span><span>Model v0.1</span></footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
