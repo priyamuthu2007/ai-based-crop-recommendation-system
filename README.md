@@ -1,31 +1,29 @@
-AI-based Crop Recommendation System (25% complete)
+AI-based Crop Recommendation System
 
-This repository contains a starter scaffold for a crop recommendation system using a Decision Tree baseline (25% implementation completed).
+This project is now demo-ready: it includes a trained Decision Tree model, a preprocessing pipeline, and a working crop recommendation interface that calls a local prediction API.
 
 What's included:
-- `src/train.py`: initial training script using `DecisionTreeClassifier`.
-- `src/preprocess.py`: simple preprocessing helper.
-- `notebooks/EDA.md`: notes and steps for exploratory data analysis.
+- `src/train.py`: trains a `DecisionTreeClassifier` from the processed crop dataset.
+- `src/preprocess.py`: dataframe cleaning and preprocessing utilities.
+- `src/inference.py`: loads or trains the model and returns a crop recommendation from form input.
+- `src/server.py`: a local HTTP server that serves the UI and exposes the `/predict` API.
 - `ui/`: responsive farmer-facing crop recommendation interface.
 - `requirements.txt`: Python dependencies.
-- `models/`: directory where trained models will be saved.
+- `models/`: trained model output.
 
-To view the interface:
-
-```bash
-python -m http.server 8000 --directory ui
-```
-
-Open `http://localhost:8000`. The current interface includes a demo recommendation interaction; it is ready to connect to the trained Decision Tree model in the next phase.
-
-Next steps (I'll do after you provide datasets):
-- Run EDA on your CSVs and refine preprocessing
-- Train and tune Decision Tree baseline
-- Save model and add inference API/CLI
-
-To run locally:
+How to run the demo:
 
 ```bash
 python -m pip install -r requirements.txt
-python src/train.py --data-path data/your_dataset.csv --target-column target
+python src/server.py
 ```
+
+Then open `http://localhost:8000` in the browser.
+
+Optional: train the model again manually:
+
+```bash
+python src/train.py --data-path data/processed/Crop_recommendation_processed.csv --target-column Crop --model-out models/decision_tree.pkl
+```
+
+The UI now sends field values to the backend, which returns the actual model prediction and confidence score.
