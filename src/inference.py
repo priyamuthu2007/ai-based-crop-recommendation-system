@@ -1,4 +1,6 @@
 import json
+import math
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -16,6 +18,24 @@ FEATURE_ORDER = [
     "pH_Value",
     "Rainfall",
 ]
+INPUT_RANGES = {
+    "Nitrogen": (0, 200),
+    "Phosphorus": (0, 200),
+    "Potassium": (0, 200),
+    "Temperature": (-10, 60),
+    "Humidity": (0, 100),
+    "pH_Value": (0, 14),
+    "Rainfall": (0, 1000),
+}
+FEATURE_LABELS = {
+    "Nitrogen": ("Nitrogen", "kg/ha"),
+    "Phosphorus": ("Phosphorus", "kg/ha"),
+    "Potassium": ("Potassium", "kg/ha"),
+    "Temperature": ("Temperature", "°C"),
+    "Humidity": ("Humidity", "%"),
+    "pH_Value": ("Soil pH", ""),
+    "Rainfall": ("Rainfall", "mm"),
+}
 
 ALIASES = {
     "nitrogen": "Nitrogen",
@@ -95,6 +115,27 @@ def _load_model_profile():
     return _build_model_profile()
 
 
+@lru_cache(maxsize=1)
+def _load_training_ranges():
+    if not DATASET_PATH.exists():
+        return None
+
+    df = pd.read_csv(DATASET_PATH)
+    missing_columns = [name for name in FEATURE_ORDER if name not in df.columns]
+    if missing_columns:
+        raise ValueError(
+            f"Training dataset is missing required features: {', '.join(missing_columns)}"
+        )
+    ranges = {}
+    for feature in FEATURE_ORDER:
+        values = pd.to_numeric(df[feature], errors="coerce")
+        values = values[np.isfinite(values)]
+        if values.empty:
+            raise ValueError(f"Training dataset has no valid values for {feature}.")
+        ranges[feature] = (float(values.min()), float(values.max()))
+    return ranges
+
+
 def _normalize_payload(payload):
     if not isinstance(payload, dict):
         raise ValueError("Input payload must be a JSON object.")
@@ -104,9 +145,15 @@ def _normalize_payload(payload):
         if value is None or value == "":
             continue
         try:
-            normalized[key] = float(value)
-        except (TypeError, ValueError):
+            number = float(value)
+        except (TypeError, ValueError) as exc:
+            if str(key).strip() in ALIASES:
+                raise ValueError(f"'{key}' must be a valid number.") from exc
             continue
+        if str(key).strip() in ALIASES:
+            if not math.isfinite(number):
+                raise ValueError(f"'{key}' must be a finite number.")
+            normalized[key] = number
 
     features = {}
     for source_key, value in normalized.items():
@@ -118,6 +165,13 @@ def _normalize_payload(payload):
     if missing:
         raise ValueError(f"Missing required fields: {', '.join(missing)}")
 
+    for feature, value in features.items():
+        minimum, maximum = INPUT_RANGES[feature]
+        if value < minimum or value > maximum:
+            label = FEATURE_LABELS[feature][0]
+            raise ValueError(
+                f"{label} must be between {minimum:g} and {maximum:g}."
+            )
     return {name: features[name] for name in FEATURE_ORDER}
 
 
@@ -141,13 +195,52 @@ def predict_crop(payload):
         distance = float(np.linalg.norm(diff))
         scores[crop] = 1.0 / (1.0 + distance)
 
-    best_crop, best_score = max(scores.items(), key=lambda item: item[1])
-    total_score = sum(scores.values()) or 1.0
-    confidence = round((best_score / total_score) * 100, 1)
-    confidence = max(55.0, min(confidence, 99.9))
+    ranked_scores = sorted(scores.items(), key=lambda item: (-item[1], item[0]))
+    best_crop, best_score = ranked_scores[0]
+    recommendations = [
+        {
+            "crop": crop,
+            "match_score": round(score * 100, 1),
+        }
+        for crop, score in ranked_scores[:3]
+    ]
+    closest_features = sorted(
+        enumerate(FEATURE_ORDER),
+        key=lambda item: abs(
+            (input_vector[item[0]] - feature_means[best_crop][item[0]])
+            / feature_stds[item[0]]
+        ),
+    )[:3]
+    reasons = []
+    for _, feature in closest_features:
+        label, unit = FEATURE_LABELS[feature]
+        value = f"{values[feature]:g}"
+        formatted_value = f"{value} {unit}" if unit else value
+        reasons.append(
+            f"{label} {formatted_value} is close to {best_crop}'s typical profile."
+        )
+
+    range_warnings = []
+    training_ranges = _load_training_ranges()
+    if training_ranges:
+        for feature in FEATURE_ORDER:
+            minimum, maximum = training_ranges[feature]
+            value = values[feature]
+            if value < minimum or value > maximum:
+                range_warnings.append(
+                    {
+                        "feature": feature,
+                        "value": value,
+                        "minimum": minimum,
+                        "maximum": maximum,
+                    }
+                )
 
     return {
         "crop": best_crop,
-        "confidence": round(confidence, 1),
+        "confidence": recommendations[0]["match_score"],
+        "recommendations": recommendations,
+        "reasons": reasons,
+        "out_of_training_range": range_warnings,
         "message": CROP_MESSAGE.get(best_crop, f"This field profile is a good match for {best_crop}."),
     }

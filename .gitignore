@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+data/fieldwise_auth.sqlite3
+data/fieldwise_auth.sqlite3-shm
+data/fieldwise_auth.sqlite3-wal

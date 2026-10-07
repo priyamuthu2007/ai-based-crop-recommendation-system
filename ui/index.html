@@ -7,62 +7,230 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
+  <main id="auth-screen" class="auth-screen">
+    <section class="auth-story" aria-label="About Fieldwise">
+      <a class="brand auth-story-brand" href="#" aria-label="Fieldwise home"><span class="brand-mark">F</span><span>fieldwise</span></a>
+      <div class="auth-story-copy">
+        <p class="eyebrow light" data-i18n="authStoryEyebrow">GROW WITH GREATER CLARITY</p>
+        <h2 data-i18n="authStoryTitle">Your field has a story. Make your next season count.</h2>
+        <p data-i18n="authStoryText">Bring soil details and local weather together to explore crop options with confidence.</p>
+        <div class="auth-story-tags">
+          <span data-i18n="authStoryTagOne">Soil-aware</span>
+          <span data-i18n="authStoryTagTwo">Weather-ready</span>
+          <span data-i18n="authStoryTagThree">Farmer-first</span>
+        </div>
+      </div>
+      <div class="auth-field-art" aria-hidden="true">
+        <div class="auth-art-sun"></div>
+        <div class="auth-art-orbit"></div>
+        <div class="auth-art-hill auth-art-hill-back"></div>
+        <div class="auth-art-hill auth-art-hill-front"></div>
+        <div class="auth-art-row auth-art-row-one"></div>
+        <div class="auth-art-row auth-art-row-two"></div>
+        <div class="auth-art-row auth-art-row-three"></div>
+        <div class="auth-art-sprout"><i></i><i></i><b></b></div>
+      </div>
+      <p class="auth-story-foot" data-i18n="authStoryFoot">Thoughtful decisions, rooted in your field.</p>
+    </section>
+    <section class="auth-card" aria-labelledby="auth-title">
+      <div class="brand auth-brand"><span class="brand-mark">F</span><span>fieldwise</span></div>
+      <label class="auth-language"><span data-i18n="language">Language</span>
+        <select id="auth-language-select" aria-label="Language">
+          <option value="en">English</option>
+          <option value="ta">தமிழ்</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+      </label>
+      <p class="eyebrow" data-i18n="authEyebrow">YOUR FARM, YOUR FIELDWISE ACCOUNT</p>
+      <h1 id="auth-title" data-i18n="loginTitle">Welcome back</h1>
+      <p class="auth-intro" data-i18n="authIntro">Sign in to get crop recommendations for your farm.</p>
+      <div class="auth-tabs" role="group" aria-label="Account options">
+        <button id="login-mode-button" class="auth-tab active" type="button" data-i18n="loginTab">Sign in</button>
+        <button id="register-mode-button" class="auth-tab" type="button" data-i18n="registerTab">Create account</button>
+      </div>
+      <form id="auth-form">
+        <label class="auth-field" id="name-field" hidden><span data-i18n="nameLabel">Your name</span>
+          <input id="auth-name" name="name" type="text" autocomplete="name" maxlength="80">
+        </label>
+        <label class="auth-field"><span data-i18n="emailLabel">Email address</span>
+          <input id="auth-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+        </label>
+        <label class="auth-field"><span data-i18n="passwordLabel">Password</span>
+          <input id="auth-password" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required>
+        </label>
+        <p class="auth-hint" data-i18n="passwordHint">Use at least 8 characters.</p>
+        <button id="auth-submit" class="primary-button" type="submit" data-i18n="loginButton">Sign in</button>
+      </form>
+      <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
+      <p class="auth-privacy" data-i18n="authPrivacy">Your account is stored by this app. Your password is never stored as plain text.</p>
+    </section>
+  </main>
+
+  <div class="app-shell" hidden>
     <aside class="sidebar">
       <div class="brand"><span class="brand-mark">F</span><span>fieldwise</span></div>
-      <div class="season-pill"><span class="status-dot"></span> Kharif season</div>
+      <div class="season-pill"><span class="status-dot"></span> <span data-i18n="season">Kharif season</span></div>
       <nav aria-label="Main navigation">
-        <a class="nav-item active" href="#recommend"><span class="nav-icon">⌂</span>Recommendation</a>
-        <a class="nav-item" href="#soil"><span class="nav-icon">◒</span>Soil profile</a>
-        <a class="nav-item" href="#history"><span class="nav-icon">↗</span>Past results</a>
+        <a class="nav-item active" href="#home"><span class="nav-icon">⌂</span><span data-i18n="navHome">Home</span></a>
+        <a class="nav-item" href="#recommend"><span class="nav-icon">✦</span><span data-i18n="navRecommendation">Recommendation</span></a>
+        <a class="nav-item" href="#soil"><span class="nav-icon">◒</span><span data-i18n="navSoil">Soil profile</span></a>
+        <a class="nav-item" href="#history"><span class="nav-icon">↗</span><span data-i18n="navHistory">Past results</span></a>
       </nav>
-      <div class="sidebar-footer"><span class="help-icon">?</span><span>Need help?</span><strong>Talk to an agronomist</strong></div>
+      <div class="sidebar-footer"><span class="help-icon">?</span><span data-i18n="needHelp">Need help?</span><strong data-i18n="talkExpert">Talk to an agronomist</strong></div>
     </aside>
 
-    <main class="main-content" id="recommend">
+    <main class="main-content">
       <header class="topbar">
-        <div><p class="eyebrow">FIELD DECISION SUPPORT</p><h1>What should you plant next?</h1></div>
-        <div class="profile"><div class="avatar">RK</div><div><strong>Ravi Kumar</strong><small>Coimbatore, TN</small></div><span class="chevron">⌄</span></div>
+        <div><p class="eyebrow" data-i18n="eyebrow">FIELD DECISION SUPPORT</p><h1 data-i18n="pageTitle">What should you plant next?</h1></div>
+        <label class="language-picker"><span data-i18n="language">Language</span>
+          <select id="language-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </label>
+        <div class="account-menu"><div class="profile"><div id="profile-avatar" class="avatar">F</div><div><strong id="profile-name">Farmer</strong><small id="profile-email"></small></div></div><button id="logout-button" class="logout-button" type="button" data-i18n="logoutButton">Sign out</button></div>
       </header>
 
+      <section class="home-view" id="home" aria-labelledby="home-title">
+        <div class="home-hero">
+          <div class="home-hero-copy">
+            <p class="eyebrow" data-i18n="homeEyebrow">FIELDWISE · YOUR FARMING COMPANION</p>
+            <h2 id="home-greeting">Welcome to your field, Farmer.</h2>
+            <h3 id="home-title" data-i18n="homeTitle">Better planting decisions start with your field.</h3>
+            <p data-i18n="homeText">Bring your soil and growing conditions together to explore crop options made for your field.</p>
+            <div class="home-actions">
+              <a class="primary-button home-primary-action" href="#recommend"><span>✦</span><span data-i18n="homePrimaryAction">Start a recommendation</span><b>→</b></a>
+              <a class="home-secondary-action" href="#soil"><span data-i18n="homeSecondaryAction">Add soil details</span><span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="home-trust-note"><span class="home-trust-icon">✳</span><span data-i18n="homeTrustNote">A clear starting point—always review suggestions with local expertise.</span></div>
+          </div>
+          <div class="home-illustration" aria-hidden="true">
+            <div class="home-illustration-orbit"></div>
+            <div class="home-illustration-sun"></div>
+            <svg viewBox="0 0 520 430" role="presentation" focusable="false">
+              <defs>
+                <linearGradient id="fieldSky" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f5f6dc"/><stop offset="1" stop-color="#d6eab5"/></linearGradient>
+                <linearGradient id="fieldFront" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#94b75f"/><stop offset="1" stop-color="#497e52"/></linearGradient>
+              </defs>
+              <path d="M260 34c105 0 190 85 190 190s-85 190-190 190S70 329 70 224 155 34 260 34Z" fill="url(#fieldSky)"/>
+              <circle cx="372" cy="126" r="34" fill="#f8c96e"/>
+              <path d="M77 249c78-56 140-56 220 0s143 57 214 2v179H77Z" fill="#aacb78"/>
+              <path d="M77 290c83-48 157-45 236 4s132 53 198 5v131H77Z" fill="url(#fieldFront)"/>
+              <path d="M77 324c75-42 151-35 231 13s136 48 203 8M77 359c76-38 145-30 222 16s144 44 212 8M77 394c78-30 143-25 219 17s144 36 214 8" fill="none" stroke="#d9e8a1" stroke-linecap="round" stroke-width="7" opacity=".8"/>
+              <path d="M260 287v-76" fill="none" stroke="#3f7848" stroke-linecap="round" stroke-width="8"/>
+              <path d="M257 244c-35-2-49-22-47-44 26 0 45 12 50 37M263 230c4-28 24-44 48-40-2 24-18 41-43 46" fill="#6d9d54"/>
+              <path d="M252 283c-29-19-38-40-31-58M269 280c23-22 30-44 25-61" fill="none" stroke="#f0d18b" stroke-linecap="round" stroke-width="4"/>
+              <circle cx="162" cy="182" r="5" fill="#fff" opacity=".8"/>
+              <circle cx="190" cy="146" r="3" fill="#fff" opacity=".75"/>
+              <circle cx="330" cy="198" r="4" fill="#fff" opacity=".7"/>
+            </svg>
+            <div class="home-art-note"><span class="home-art-note-mark">✦</span><span><strong data-i18n="homeArtTitle">Rooted in your field</strong><small data-i18n="homeArtText">Soil · climate · crop fit</small></span></div>
+          </div>
+        </div>
+        <div class="home-metrics" aria-label="Recommendation overview">
+          <article class="home-metric"><span class="home-metric-icon">⌘</span><div><strong>22</strong><span data-i18n="homeMetricCrops">crops in the dataset</span></div></article>
+          <article class="home-metric"><span class="home-metric-icon">◉</span><div><strong>7</strong><span data-i18n="homeMetricInputs">field indicators</span></div></article>
+          <article class="home-metric"><span class="home-metric-icon">↗</span><div><strong>3</strong><span data-i18n="homeMetricMatches">ranked crop matches</span></div></article>
+        </div>
+        <div class="home-steps-heading"><div><p class="eyebrow" data-i18n="homeStepsEyebrow">A SIMPLE WAY TO GET STARTED</p><h3 data-i18n="homeStepsTitle">From field details to a clearer shortlist.</h3></div><a href="#recommend" class="home-text-link"><span data-i18n="homeExploreLink">Explore recommendations</span><span aria-hidden="true">↗</span></a></div>
+        <div class="home-steps">
+          <article class="home-step"><span class="home-step-number">01</span><span class="home-step-icon">◒</span><h4 data-i18n="homeStepOneTitle">Add your field profile</h4><p data-i18n="homeStepOneText">Enter soil values, or use a report and check every extracted number.</p></article>
+          <article class="home-step"><span class="home-step-number">02</span><span class="home-step-icon">☼</span><h4 data-i18n="homeStepTwoTitle">Bring in local conditions</h4><p data-i18n="homeStepTwoText">Use weather autofill as a helpful starting point and review the forecast.</p></article>
+          <article class="home-step"><span class="home-step-number">03</span><span class="home-step-icon">✧</span><h4 data-i18n="homeStepThreeTitle">Compare the crop matches</h4><p data-i18n="homeStepThreeText">See three ranked options and the field factors behind the top match.</p></article>
+        </div>
+      </section>
+
+      <section class="recommendation-view" id="recommend">
       <section class="welcome-band">
-        <div><p class="eyebrow light">A clearer path from soil to season</p><h2>Make your next crop count.</h2><p>Enter today's field conditions and Fieldwise will find the best crop match for your land.</p></div>
-        <div class="sun-card"><span>☀</span><div><strong>28°C</strong><small>Good planting conditions</small></div></div>
+        <div><p class="eyebrow light" data-i18n="welcomeEyebrow">A clearer path from soil to season</p><h2 data-i18n="welcomeTitle">Make your next crop count.</h2><p data-i18n="welcomeText">Enter today's field conditions and Fieldwise will find the best crop match for your land.</p></div>
+        <div class="sun-card"><span>☀</span><div><strong id="weather-summary">--</strong><small data-i18n="weatherSummary">Weather appears here after autofill</small></div></div>
       </section>
 
       <div class="workspace-grid">
         <section class="panel input-panel" id="soil">
-          <div class="panel-heading"><div><p class="eyebrow">STEP 01 / FIELD INPUTS</p><h3>Tell us about your field</h3></div><span class="required-note">All fields required</span></div>
+          <div class="panel-heading"><div><p class="eyebrow" data-i18n="stepInputs">STEP 01 / FIELD INPUTS</p><h3 data-i18n="inputsTitle">Tell us about your field</h3></div><span class="required-note" data-i18n="required">All fields required</span></div>
+          <section class="input-tools" aria-labelledby="weather-title">
+            <h4 id="weather-title" data-i18n="weatherTitle">Weather autofill</h4>
+            <div class="tool-row">
+              <label class="tool-field"><span data-i18n="locationLabel">Town or village</span><input id="location-input" type="text" autocomplete="address-level2" placeholder="e.g. Coimbatore"></label>
+              <button class="tool-button" type="button" id="weather-button" data-i18n="weatherButton">Fill weather</button>
+              <button class="tool-button secondary-tool-button" type="button" id="location-button" data-i18n="locationButton">Use my location</button>
+            </div>
+            <p class="tool-note" data-i18n="rainfallNote">Rainfall is the Open-Meteo total forecast for the next 16 days. Review it before use; the model data may represent a different rainfall period.</p>
+            <p class="tool-status" id="weather-status" role="status" aria-live="polite"></p>
+          </section>
+          <section class="input-tools" aria-labelledby="report-title">
+            <h4 id="report-title" data-i18n="reportTitle">Soil test report</h4>
+            <div class="report-upload-layout">
+              <label class="report-dropzone" id="report-dropzone" for="report-file">
+                <input id="report-file" class="report-file-input" type="file" accept="image/*,.pdf,application/pdf" aria-describedby="report-upload-hint">
+                <span class="report-upload-icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M24 31V9m0 0-8 8m8-8 8 8M10 29v10h28V29" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/></svg></span>
+                <span class="report-drop-copy"><strong data-i18n="reportDropTitle">Drop your soil report here</strong><span data-i18n="reportDropText">or choose a photo or PDF from your device</span></span>
+                <span class="report-file-name" id="report-file-name" aria-live="polite">No report selected</span>
+                <span class="report-upload-hint" id="report-upload-hint" data-i18n="reportUploadHint">JPG, PNG or PDF · up to 15 MB</span>
+              </label>
+              <button class="tool-button report-read-button" type="button" id="ocr-button" data-i18n="ocrButton">Read N, P, K and pH</button>
+            </div>
+            <p class="tool-note" data-i18n="ocrNote">The report is processed in this browser and is not uploaded. Check all extracted values before use.</p>
+            <p class="tool-status" id="ocr-status" role="status" aria-live="polite"></p>
+            <label id="ocr-review-row" class="review-check" hidden>
+              <input id="ocr-review" type="checkbox">
+              <span data-i18n="ocrReview">I checked the extracted soil values and units against my report.</span>
+            </label>
+          </section>
+          <section class="input-tools voice-tools" aria-labelledby="voice-title">
+            <h4 id="voice-title" data-i18n="voiceTitle">Voice input</h4>
+            <div class="tool-row">
+              <button class="tool-button" type="button" id="voice-button" data-i18n="voiceButton">Speak field values</button>
+              <span class="tool-note voice-prompt" data-i18n="voicePrompt">Say values with labels, for example: nitrogen 90, phosphorus 42, pH 6.5.</span>
+            </div>
+            <p class="tool-note" data-i18n="voiceNote">Speech recognition availability and privacy depend on your browser.</p>
+            <p class="tool-status" id="voice-status" role="status" aria-live="polite"></p>
+          </section>
           <form id="recommendation-form">
             <div class="form-grid">
-              <label>Nitrogen <span>N</span><div class="input-wrap"><input name="nitrogen" type="number" value="90" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
-              <label>Phosphorus <span>P</span><div class="input-wrap"><input name="phosphorus" type="number" value="42" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
-              <label>Potassium <span>K</span><div class="input-wrap"><input name="potassium" type="number" value="43" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
-              <label>Temperature<div class="input-wrap"><input name="temperature" type="number" value="20.9" min="-10" max="60" step="0.1" required><em>°C</em></div></label>
-              <label>Humidity<div class="input-wrap"><input name="humidity" type="number" value="82" min="0" max="100" step="0.1" required><em>%</em></div></label>
-              <label>Soil pH<div class="input-wrap"><input name="ph" type="number" value="6.5" min="0" max="14" step="0.01" required><em>pH</em></div></label>
-              <label class="wide-field">Expected rainfall<div class="input-wrap"><input name="rainfall" type="number" value="203" min="0" max="1000" step="0.1" required><em>mm</em></div></label>
+              <label><span data-i18n="nitrogen">Nitrogen</span> <span>N</span><div class="input-wrap"><input name="nitrogen" type="number" value="90" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
+              <label><span data-i18n="phosphorus">Phosphorus</span> <span>P</span><div class="input-wrap"><input name="phosphorus" type="number" value="42" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
+              <label><span data-i18n="potassium">Potassium</span> <span>K</span><div class="input-wrap"><input name="potassium" type="number" value="43" min="0" max="200" step="0.1" required><em>kg/ha</em></div></label>
+              <label><span data-i18n="temperature">Temperature</span><div class="input-wrap"><input name="temperature" type="number" value="20.9" min="-10" max="60" step="0.1" required><em>°C</em></div></label>
+              <label><span data-i18n="humidity">Humidity</span><div class="input-wrap"><input name="humidity" type="number" value="82" min="0" max="100" step="0.1" required><em>%</em></div></label>
+              <label><span data-i18n="soilPh">Soil pH</span><div class="input-wrap"><input name="ph" type="number" value="6.5" min="0" max="14" step="0.01" required><em>pH</em></div></label>
+              <label class="wide-field"><span data-i18n="rainfall">Expected rainfall</span><div class="input-wrap"><input name="rainfall" type="number" value="203" min="0" max="1000" step="0.1" required><em>mm</em></div></label>
             </div>
-            <button class="primary-button" type="submit"><span>✦</span> Get crop recommendation <b>→</b></button>
+            <button class="primary-button" type="submit"><span>✦</span><span data-i18n="recommendButton">Get crop recommendation</span><b>→</b></button>
           </form>
-          <p class="privacy-note"><span>♢</span> Your field data stays private on this device.</p>
+          <p class="privacy-note"><span>♢</span> <span data-i18n="privacyNote">Soil reports stay in this browser; weather requests use Open-Meteo.</span></p>
         </section>
 
         <section class="panel result-panel" id="history">
-          <div class="panel-heading"><div><p class="eyebrow">STEP 02 / RESULT</p><h3>Your best match</h3></div><span class="model-badge">Decision Tree</span></div>
+          <div class="panel-heading"><div><p class="eyebrow" data-i18n="stepResult">STEP 02 / RESULT</p><h3 data-i18n="resultTitle">Your best match</h3></div><span class="model-badge" data-i18n="modelBadge">Profile match</span></div>
           <div id="result-content" class="result-content">
             <div class="crop-illustration" aria-hidden="true"><span class="leaf leaf-one"></span><span class="leaf leaf-two"></span><span class="leaf leaf-three"></span><span class="stem"></span><span class="soil-line"></span></div>
-            <p class="result-label">Recommended crop</p><h2 id="crop-name">Rice</h2><p class="result-copy">Your field conditions show a strong fit for a healthy rice season.</p>
-            <div class="confidence"><div><span>Model confidence</span><strong id="confidence-value">94%</strong></div><div class="progress"><span id="confidence-bar"></span></div></div>
-            <div class="result-details"><div><span class="detail-icon">◷</span><div><small>Growing period</small><strong>120–150 days</strong></div></div><div><span class="detail-icon">◉</span><div><small>Water need</small><strong>High</strong></div></div></div>
+            <p class="result-label" data-i18n="recommendedCrop">Recommended crop</p><h2 id="crop-name">—</h2><p class="result-copy" data-i18n="resultPlaceholder">Submit your field conditions to see suitable crops.</p>
+            <div class="confidence"><div><span data-i18n="profileSimilarity">Profile similarity (not probability)</span><strong id="confidence-value">--</strong></div><div class="progress"><span id="confidence-bar" style="width: 0%"></span></div></div>
+            <section class="alternatives" aria-labelledby="alternatives-title" aria-live="polite" hidden>
+              <h4 id="alternatives-title" data-i18n="otherMatches">Other top matches</h4>
+              <ol id="recommendation-list"></ol>
+            </section>
+            <section class="why-crop" aria-labelledby="why-crop-title" aria-live="polite" hidden>
+              <h4 id="why-crop-title" data-i18n="whyCrop">Why this crop?</h4>
+              <ul id="reason-list"></ul>
+            </section>
+            <p id="training-warning" class="training-warning" role="alert" hidden></p>
+            <p class="recommendation-caveat" data-i18n="recommendationCaveat">Prototype decision support only. Similarity scores are not probabilities; confirm recommendations and local conditions with an agricultural expert.</p>
+            <div class="result-details"><div><span class="detail-icon">◷</span><div><small data-i18n="growingPeriod">Growing period</small><strong>120–150 days</strong></div></div><div><span class="detail-icon">◉</span><div><small data-i18n="waterNeed">Water need</small><strong data-i18n="waterHigh">High</strong></div></div></div>
           </div>
-          <div id="empty-result" class="empty-result" hidden><span>✦</span><p>Enter your field details to see a recommendation.</p></div>
-          <button class="secondary-button" type="button" id="reset-button">↻ Reset field inputs</button>
+          <div id="empty-result" class="empty-result" hidden><span>✦</span><p data-i18n="emptyResult">Enter your field details to see a recommendation.</p></div>
+          <button class="secondary-button" type="button" id="reset-button">↻ <span data-i18n="resetButton">Reset field inputs</span></button>
         </section>
       </div>
-      <footer class="footer-note"><span>FIELDWISE BETA</span><span>Designed for practical decisions in the field</span><span>Model v0.1</span></footer>
+      <footer class="footer-note"><span>FIELDWISE BETA</span><span data-i18n="footerText">Designed for practical decisions in the field</span><span>Model v0.1</span></footer>
+      </section>
     </main>
   </div>
-  <script src="app.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+  <script defer src="app.js"></script>
 </body>
 </html>

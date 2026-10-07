@@ -1,8 +1,11 @@
 import os
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from xgboost import XGBClassifier
 from preprocess import preprocess_df
 
 DATA_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'processed', 'Crop_recommendation_processed.csv')
@@ -25,6 +28,8 @@ X, y, _ = preprocess_df(df, 'Crop')
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
+label_encoder = LabelEncoder().fit(y)
+y_train_encoded = label_encoder.transform(y_train)
 
 results = []
 
@@ -34,6 +39,42 @@ model.fit(X_train, y_train)
 row = {'iteration': 'Iteration 1 - default baseline', 'configuration': 'Default DecisionTreeClassifier'}
 row.update(metrics(y_test, model.predict(X_test)))
 results.append(row)
+
+# Compare ensemble classifiers on the same held-out test set.
+model_comparisons = [
+    (
+        'Random Forest',
+        RandomForestClassifier(n_estimators=300, random_state=42, n_jobs=-1),
+        y_train,
+    ),
+    (
+        'XGBoost',
+        XGBClassifier(
+            n_estimators=300,
+            max_depth=6,
+            learning_rate=0.1,
+            objective='multi:softprob',
+            num_class=len(label_encoder.classes_),
+            eval_metric='mlogloss',
+            tree_method='hist',
+            random_state=42,
+            n_jobs=-1,
+        ),
+        y_train_encoded,
+    ),
+]
+
+for model_name, model, training_labels in model_comparisons:
+    model.fit(X_train, training_labels)
+    predictions = model.predict(X_test)
+    if model_name == 'XGBoost':
+        predictions = label_encoder.inverse_transform(predictions.astype(int))
+    row = {
+        'iteration': 'Model comparison',
+        'configuration': model_name,
+    }
+    row.update(metrics(y_test, predictions))
+    results.append(row)
 
 # Iteration 2: regularized tree to reduce overfitting.
 model = DecisionTreeClassifier(max_depth=12, min_samples_leaf=2, random_state=42)
