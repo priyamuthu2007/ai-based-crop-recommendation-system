@@ -134,6 +134,14 @@ body::before {
   box-shadow: 0 10px 22px rgba(202, 233, 112, 0.35);
 }
 
+.brand-mark img {
+  display: block;
+  width: 25px;
+  height: 25px;
+}
+
+.auth-story-brand .brand-mark img { width: 27px; height: 27px; }
+
 .season-pill {
   margin: 44px 0 28px;
   border: 1px solid rgba(166, 211, 170, 0.4);
@@ -1065,6 +1073,8 @@ body {
   transform: rotate(-8deg) scale(1.06);
   box-shadow: 0 12px 28px rgba(202, 233, 112, 0.5);
 }
+
+.brand:hover .brand-mark img { animation: sprout 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 .nav-item {
   position: relative;

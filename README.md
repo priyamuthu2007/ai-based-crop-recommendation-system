@@ -1,6 +1,6 @@
-AI-based Crop Recommendation System
+Nalvidhai — AI-based Crop Recommendation
 
-This project is now demo-ready: it includes a trained Decision Tree model, a preprocessing pipeline, and a working crop recommendation interface that calls a local prediction API.
+Nalvidhai is the farmer-facing name of this crop recommendation demo. It includes a trained Decision Tree model, a preprocessing pipeline, and a working crop recommendation interface that calls a local prediction API. Its sprouting-seed logo represents growth grounded in soil and field conditions.
 
 What's included:
 - `src/train.py`: trains a `DecisionTreeClassifier` from the processed crop dataset.
@@ -39,7 +39,7 @@ The live recommender currently uses crop-profile similarity scores, not calibrat
 
 ## Email and password sign-in
 
-The app opens on an email/password sign-in screen. Farmers can create an account with their name, email, and a password of at least 8 characters, or sign in with an existing account. Email/password accounts are stored in `data/fieldwise_auth.sqlite3`; passwords are salted and hashed, and browser sessions use an HttpOnly cookie. Crop recommendations require a signed-in session. Sign out revokes the session.
+Nalvidhai opens on an email/password sign-in screen. Farmers can create an account with their name, email, and a password of at least 8 characters, or sign in with an existing account. Email/password accounts are stored in `data/fieldwise_auth.sqlite3`; passwords are salted and hashed, and browser sessions use an HttpOnly cookie. Crop recommendations require a signed-in session. Sign out revokes the session.
 
 This demo does not send email verification or password-reset messages, and it should not be exposed to the public internet without HTTPS, deployment hardening, and an email-recovery flow.
 
